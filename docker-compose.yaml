@@ -1,0 +1,27 @@
+services:
+  backend:
+    build: ./flask-backend
+    hostname: flask-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./flask-backend:/app
+    networks:
+      - dummy
+
+  frontend:
+    build: ./express-frontend
+    hostname: express-frontend
+    environment:
+      - BACKEND_URL=http://flask-backend:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    volumes:
+      - ./express-frontend:/app
+    networks:
+      - dummy
+
+networks:
+  dummy: {}
