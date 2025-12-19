@@ -1,0 +1,12 @@
+variable "aws_region" {
+  description = "Region where sources allocated"
+  default = "ap-south-1" 
+}
+
+variable "aws_access_key" {
+  ephemeral = true
+}
+
+variable "aws_secret_key" {
+  ephemeral = true
+}
