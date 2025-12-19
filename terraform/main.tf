@@ -1,19 +1,3 @@
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 6.0"
-    }
-  }
-}
-
-# Configure the AWS Provider
-provider "aws" {
-  region = var.aws_region
-  access_key = var.aws_access_key
-  secret_key = var.aws_secret_key
-}
-
 # Create an EC2 instance
 data "aws_ami" "ubuntu" {
   most_recent = true
@@ -29,15 +13,4 @@ data "aws_ami" "ubuntu" {
   }
 
   owners = ["099720109477"] # Canonical
-}
-
-resource "aws_instance" "instance-example-1" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
-  key_name     = "tutedude-ec2"
-  security_groups = ["launch-wizard-1"]
-
-  tags = {
-    course = "TutuDude-EC2"
-  }
 }
