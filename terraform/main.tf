@@ -38,17 +38,6 @@ resource "aws_instance" "instance-example-1" {
   security_groups = ["launch-wizard-1"]
 
   tags = {
-    Name = "TutuDude-EC2"
-  }
-}
-
-resource "aws_instance" "instance-example-2" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
-  key_name     = "tutedude-ec2"
-  security_groups = ["launch-wizard-1"]
-
-  tags = {
-    Name = "TutuDude-EC2"
+    course = "TutuDude-EC2"
   }
 }
