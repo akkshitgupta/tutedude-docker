@@ -1,12 +1,14 @@
+# Part 2 Security Groups for EC2 Instances
+# Separate security groups for Flask and Express applications
 # create security groups
 resource "aws_security_group" "flask_sg" {
   name   = "flask-sg"
-  vpc_id = aws_vpc.main.id
+  vpc_id = aws_vpc.part-2-vpc.id
 }
 
 resource "aws_security_group" "express_sg" {
   name   = "express-sg"
-  vpc_id = aws_vpc.main.id
+  vpc_id = aws_vpc.part-2-vpc.id
 }
 
 # create security group rules for SSH access
@@ -83,3 +85,42 @@ resource "aws_security_group_rule" "express_egress" {
   cidr_blocks       = ["0.0.0.0/0"]
   security_group_id = aws_security_group.express_sg.id
 }
+
+
+# Part 3 Security Groups for ECS Tasks
+resource "aws_security_group" "part-3-alb_sg" {
+  vpc_id = aws_vpc.part-3-vpc.id
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_security_group" "ecs_sg" {
+  vpc_id = aws_vpc.part-3-vpc.id
+
+  ingress {
+    from_port       = 0
+    to_port         = 65535
+    protocol        = "tcp"
+    security_groups = [aws_security_group.part-3-alb_sg.id]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+

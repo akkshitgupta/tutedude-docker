@@ -1,12 +1,12 @@
 # Common Instance Configuration
-resource "aws_instance" "instance-example-1" {
+resource "aws_instance" "part-1-common-instance" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
-  key_name     = "tutedude-ec2"
+  instance_type = var.instance_type
+  key_name     = var.key_name
   security_groups = ["launch-wizard-1"]
 
   tags = {
-    course = "TutuDude-EC2"
+    Name = "TutuDude-EC2"
   }
 }
 
@@ -14,7 +14,7 @@ resource "aws_instance" "instance-example-1" {
 resource "aws_instance" "flask" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
-  subnet_id     = aws_subnet.public.id
+  subnet_id     = aws_subnet.part-2-subnet-public.id
   key_name      = var.key_name
 
   vpc_security_group_ids = [aws_security_group.flask_sg.id]
@@ -28,7 +28,7 @@ resource "aws_instance" "flask" {
 resource "aws_instance" "express" {
   ami           = data.aws_ami.ubuntu.id
   instance_type = var.instance_type
-  subnet_id     = aws_subnet.public.id
+  subnet_id     = aws_subnet.part-2-subnet-public.id
   key_name      = var.key_name
 
   vpc_security_group_ids = [aws_security_group.express_sg.id]
