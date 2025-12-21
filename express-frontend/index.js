@@ -76,6 +76,7 @@ app.get('/', (req, res) => {
 </head>
 
 <body>
+    <h1> This is TuteDude CI/CD practice project </h1>
     <form id="itemForm">
         <div>
             <label for="itemName">Item Name:</label>
