@@ -28,9 +28,7 @@ GitHub → Jenkins → Docker Build → Docker Compose → EC2
 
   * `22` (SSH)
   * `8080` (Jenkins)
-  * `3000` (Express)
-  * `5000` (Flask)
-  * `80` (Nginx – optional)
+  * `80` (Nginx)
 
 ### Software Installed on EC2
 
@@ -92,7 +90,7 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
-EXPOSE 5000
+EXPOSE 8000
 CMD ["python", "app.py"]
 ```
 
@@ -119,7 +117,7 @@ services:
     build: ./flask-app
     container_name: flask_app
     ports:
-      - "5000:5000"
+      - "8000:8000"
 
   express:
     build: ./express-app
@@ -200,25 +198,15 @@ pipeline {
 * Flask API:
 
 ```
-http://<EC2_PUBLIC_IP>:5000
+http://3.108.8.162/backend/api
 ```
 
 * Express API:
 
 ```
-http://<EC2_PUBLIC_IP>:3000
+http://3.108.8.162/frontend
 ```
 
----
-
-## (Optional) Nginx Reverse Proxy
-
-Recommended for production to expose both apps on port 80 with routing:
-
-* `/api/flask → Flask`
-* `/api/express → Express`
-
----
 
 ## Best Practices
 
